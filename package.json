@@ -1,0 +1,21 @@
+{
+  "name": "express-microservice-practice",
+  "version": "1.0.0",
+  "description": "",
+
+  "scripts": {
+    "dev:all": "pnpm --stream -r run dev",
+    "dev:customer": "pnpm nx dev customer",
+    "dev:products": "pnpm nx dev products",
+    "dev:shopping": "pnpm nx dev shopping",
+    "pretty:apps": "pnpx prettier apps/**/src/**/*.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@nrwl/nx-cloud": "latest",
+    "nx": "15.8.9",
+    "prettier": "^2.8.7"
+  }
+}

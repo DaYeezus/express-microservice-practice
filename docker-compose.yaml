@@ -1,0 +1,69 @@
+version: "3.9"
+services:
+  nosql-db:
+    image: mongo:focal
+    ports:
+      - "27018:27017"
+    container_name: nosql-db
+    volumes:
+      - nosql-db:/data/db
+  products:
+    build:
+      dockerfile: Dockerfile
+      context: ./apps/products
+      target: development
+    container_name: products
+    ports:
+      - "8001:8001"
+    restart: always
+    depends_on:
+      - "nosql-db"
+    volumes:
+      - ./apps/products:/app
+    environment:
+      - PORT=8001
+      - DB_URL=mongodb://db:27018
+  customer:
+    build:
+      dockerfile: Dockerfile
+      context: ./apps/customer
+      target: development
+    container_name: customer
+    ports:
+      - "8002:8002"
+    restart: always
+    depends_on:
+      - "nosql-db"
+    volumes:
+      - ./apps/customer:/app
+    environment:
+      - PORT=8002
+      - DB_URL=mongodb://db:27018
+  shopping:
+    build:
+      dockerfile: Dockerfile
+      context: ./apps/shopping
+      target: development
+    container_name: shopping
+    ports:
+      - "8003:8003"
+    restart: always
+    depends_on:
+      - "nosql-db"
+    volumes:
+      - ./apps/shopping:/app
+    environment:
+      - PORT=8003
+      - DB_URL=mongodb://db:27018
+  nginx-proxy:
+    build:
+      dockerfile: Dockerfile
+      context: ./packages/proxy
+    depends_on:
+      - products
+      - shopping
+      - customer
+    ports:
+      - "8005:80"
+volumes:
+  nosql-db:
