@@ -1,12 +1,25 @@
 {
   "compilerOptions": {
-    "target": "ES2022",
+    "target": "ES2016",
+    "allowJs": false,
+    "skipLibCheck": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "esModuleInterop": true,
     "module": "commonjs",
+    "incremental": true,
+    "tsBuildInfoFile": "./.tsbuildinfo",
     "rootDir": "./src",
     "outDir": "./dist",
-    "strict": true,
-    "esModuleInterop": true,
-    "skipLibCheck": false,
-    "forceConsistentCasingInFileNames": true
-  }
+    "typeRoots": [
+      "./node_modules/@types",
+      "./@types"
+    ]
+  },
+  "include": [
+    "**/*.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }
