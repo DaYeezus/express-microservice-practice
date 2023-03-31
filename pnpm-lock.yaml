@@ -1,24 +1,21 @@
 lockfileVersion: '6.0'
 
-importers:
-
-  .:
-    devDependencies:
-      '@nrwl/nx-cloud':
-        specifier: latest
-        version: 15.3.4
-      nx:
-        specifier: 15.8.9
-        version: 15.8.9
-      prettier:
-        specifier: ^2.8.7
-        version: 2.8.7
-      ts-node:
-        specifier: ^10.9.1
-        version: 10.9.1(@types/node@18.15.11)(typescript@4.9.5)
-      typescript:
-        specifier: ^4.9.5
-        version: 4.9.5
+devDependencies:
+  '@nrwl/nx-cloud':
+    specifier: latest
+    version: 15.3.4
+  nx:
+    specifier: 15.8.9
+    version: 15.8.9
+  prettier:
+    specifier: ^2.8.7
+    version: 2.8.7
+  ts-node:
+    specifier: ^10.9.1
+    version: 10.9.1(@types/node@18.15.11)(typescript@4.9.5)
+  typescript:
+    specifier: ^4.9.5
+    version: 4.9.5
 
 packages:
 
@@ -572,7 +569,7 @@ packages:
       fs.realpath: 1.0.0
       inflight: 1.0.6
       inherits: 2.0.4
-      minimatch: 3.0.5
+      minimatch: 3.1.2
       once: 1.4.0
       path-is-absolute: 1.0.1
     dev: true
