@@ -11,6 +11,7 @@ services:
     build:
       dockerfile: Dockerfile
       context: ./apps/products
+      target: development
     container_name: products
     ports:
       - "8001:8001"
@@ -26,6 +27,7 @@ services:
     build:
       dockerfile: Dockerfile
       context: ./apps/customer
+      target: development
     container_name: customer
     ports:
       - "8002:8002"
@@ -41,6 +43,7 @@ services:
     build:
       dockerfile: Dockerfile
       context: ./apps/shopping
+      target: development
     container_name: shopping
     ports:
       - "8003:8003"
