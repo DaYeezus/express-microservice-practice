@@ -66,6 +66,8 @@ services:
       - user
     ports:
       - "8005:80"
+    networks:
+      noting-app-network:
 volumes:
   mongoDB:
 networks:
