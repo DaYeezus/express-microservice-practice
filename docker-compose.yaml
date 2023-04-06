@@ -1,12 +1,25 @@
-version: "3.8"
+version: "3.9"
 services:
-  mongodb:
+  mongoDB:
     image: mongo:focal
     ports:
-      - "27017:27017"
-    container_name: mongodb
+      - "27018:27017"
+    container_name: mongoDB
     volumes:
-      - mongodb:/data/db
+      - mongoDB:/data/db
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: practice-mq
+    env_file:
+      - ./.env
+    ports:
+      - '5672:5672'
+      - '15672:15672'
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    environment:
+      - RABBITMQ_DEFAULT_USER=root
+      - RABBITMQ_DEFAULT_PASS=root
     networks:
       noting-app-network:
   auth:
@@ -19,11 +32,11 @@ services:
     volumes:
       - ./apps/auth:/app/
       - ./apps/auth/node_modules:/app/node_modules
-    depends_on:
-      - mongodb
     environment:
-      DATABASE_URL: mongodb://mongodb/noting-app
-      PORT: 8002
+      - DATABASE_URL=mongodb://mongoDB:27018
+      - PORT=8002
+    depends_on:
+      - mailer
     networks:
       noting-app-network:
   note:
@@ -37,8 +50,8 @@ services:
       - ./apps/note:/app/
       - ./apps/note/node_modules:/app/node_modules
     environment:
-      DATABASE_URL: mongodb://mongodb/noting-app
-      PORT: 8001
+      - DATABASE_URL=mongodb://mongoDB:27018
+      - PORT=8001
     depends_on:
       - auth
     networks:
@@ -56,8 +69,18 @@ services:
     depends_on:
       - auth
     environment:
-      DATABASE_URL: mongodb://mongodb/noting-app
-      PORT: 8003
+      - DATABASE_URL=mongodb://mongoDB:27018
+      - PORT=8003
+    networks:
+      noting-app-network:
+  mailer:
+    build:
+      context: apps/email
+      dockerfile: Dockerfile
+      target: development
+    volumes:
+      - ./apps/email:/app/
+      - ./apps/email/node_modules:/app/node_modules
     networks:
       noting-app-network:
   nginx-proxy:
@@ -70,10 +93,9 @@ services:
       - user
     ports:
       - "8005:80"
-    networks:
-      noting-app-network:
 volumes:
-  mongodb:
+  mongoDB:
+  rabbitmq_data:
 networks:
   noting-app-network:
     driver: bridge
